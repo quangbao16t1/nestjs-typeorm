@@ -72,5 +72,14 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quangbao16t1/nest-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/quangbao16t1/nest-api/issues"
+  },
+  "homepage": "https://github.com/quangbao16t1/nest-api#readme"
 }
