@@ -79,10 +79,10 @@
   "main": ".eslintrc.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/quangbao16t1/nest-api.git"
+    "url": "git+https://github.com/quangbao16t1/nestjs-typeorm.git"
   },
   "bugs": {
-    "url": "https://github.com/quangbao16t1/nest-api/issues"
+    "url": "https://github.com/quangbao16t1/nestjs-typeorm/issues"
   },
-  "homepage": "https://github.com/quangbao16t1/nest-api#readme"
+  "homepage": "https://github.com/quangbao16t1/nestjs-typeorm#readme"
 }
