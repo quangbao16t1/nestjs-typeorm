@@ -1,7 +1,7 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, IsNull, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Role } from "./role.entity";
 
-@Entity({name: 'users'})
+@Entity({ name: 'users' })
 export class User {
     @PrimaryGeneratedColumn()
     id: number;
@@ -15,8 +15,8 @@ export class User {
     @Column()
     age: number;
 
- 
-    @Column({unique: true, nullable: false})
+
+    @Column({ unique: true, nullable: false })
     email: string;
 
     @Column()
@@ -29,24 +29,26 @@ export class User {
     address: string;
 
     @Column()
-    gender: number;
+    gender: string;
 
     @Column()
     phoneNumber: string;
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     birthday: Date;
 
     @Column()
     roleId: number;
 
-    @CreateDateColumn({name: 'createdAt', type: 'timestamp', nullable: true})
+    @CreateDateColumn({ name: 'createdAt', type: 'timestamp', nullable: true })
     createdAt: Date;
 
-    @CreateDateColumn({name: 'updatedAt', type: 'timestamp', nullable: true})
+    @CreateDateColumn({ name: 'updatedAt', type: 'timestamp', nullable: true })
     updatedAt: Date;
 
     @ManyToOne(() => Role, (role) => role.users)
-    @JoinColumn({name: 'roleId'})
+    @JoinColumn({ name: 'roleId' })
     role?: Role
 }
