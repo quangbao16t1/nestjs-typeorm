@@ -1,8 +1,9 @@
-import { Body, Controller, Get, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
 import { response } from 'express';
 import { resultData } from 'src/common/resultData';
 import UserCreateDto from 'src/dto/user/userCreate.dto';
 import { UserUpdateDto } from 'src/dto/user/userUpdate.dto';
+import { JwtAuthGuard } from '../auth/strategies/jwt-auth.strategy';
 import { UserService } from './user.service';
 
 @Controller('users')
@@ -28,10 +29,12 @@ export class UserController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get(':id')
     async getUserById(@Res() response, @Param('id') id: number) {
         try {
             const result = await this.userSevice.getUserById(id);
+
             if (result) response.json(resultData(HttpStatus.OK, result, "success", []));
         } catch (error) {
             response.json(resultData(HttpStatus.INTERNAL_SERVER_ERROR, [], "not found", error.message))
@@ -42,11 +45,12 @@ export class UserController {
     async updateUser(
         @Res() response,
         @Body() body: UserUpdateDto,
-        @Param('id') id: number
+        @Param('id') id: number,
     ) {
         try {
             const result = await this.userSevice.updateUser(body, id);
-            if(result) response.json(resultData(HttpStatus.OK, result, "updated success", []));
+            
+            if (result) response.json(resultData(HttpStatus.OK, result, "updated success", []));
         } catch (error) {
             response.json(resultData(HttpStatus.INTERNAL_SERVER_ERROR, [], "not found", error.message))
         }

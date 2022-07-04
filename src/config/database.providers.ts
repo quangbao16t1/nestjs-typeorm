@@ -16,7 +16,10 @@ export const databaseProviders = [
         ],
         synchronize: false,
         dropSchema: false,
-        migrations: ['dist/database/migrations/*.js'],
+        migrations: [
+          'src/database/migrations/*{.ts}',
+          'dist/database/migrations/*{.ts, .js}'
+        ]
       });
 
       return dataSource.initialize();
