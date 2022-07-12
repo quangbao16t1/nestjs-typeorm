@@ -1,8 +1,10 @@
+import { User } from './../../entity/user.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { DatabaseModule } from 'src/config/database.module';
-import { authProviders } from './auth.providers';
+// import { DatabaseModule } from 'src/config/database.module';
+// import { authProviders } from './auth.providers';
 import { LocalStrategy } from './strategies/local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
@@ -10,7 +12,8 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
-    DatabaseModule,
+    // DatabaseModule,
+    TypeOrmModule.forFeature([User]),
     PassportModule.register({ defaultStrategy: 'local' }),
     JwtModule.register({
       secret: 'vntalking-secret-key',
@@ -20,7 +23,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     })
   ],
   providers: [
-    ...authProviders,
+    // ...authProviders,
     AuthService,
     LocalStrategy,
     JwtStrategy

@@ -7,12 +7,12 @@ import { LoginDto } from 'src/dto/auth/signin.dto';
 import { JwtService } from '@nestjs/jwt';
 import { access } from 'fs';
 import { stringify } from 'querystring';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AuthService {
     constructor(
-        @Inject('AUTH_REPOSITORY')
-        private authRepository: Repository<User>,
+        @InjectRepository(User) private authRepository: Repository<User>,
         private jwtService: JwtService
     ) { }
 

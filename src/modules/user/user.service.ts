@@ -4,12 +4,12 @@ import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import UserCreateDto from 'src/dto/user/userCreate.dto';
 import { UserUpdateDto } from 'src/dto/user/userUpdate.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UserService {
     constructor(
-        @Inject('USER_REPOSITORY')
-        private userRepository: Repository<User>
+        @InjectRepository(User) private userRepository: Repository<User>
     ) { }
 
     async getAllUser(): Promise<User[]> {
