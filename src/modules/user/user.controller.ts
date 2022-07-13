@@ -1,6 +1,7 @@
-import { Body, Controller, Get, HttpStatus, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Post, Put, Query, Res, UseGuards } from '@nestjs/common';
 import { response } from 'express';
 import { resultData } from 'src/common/resultData';
+import { QueryDto } from 'src/dto/user/query.dto';
 import UserCreateDto from 'src/dto/user/userCreate.dto';
 import { UserUpdateDto } from 'src/dto/user/userUpdate.dto';
 import { JwtAuthGuard } from '../auth/strategies/jwt-auth.strategy';
@@ -11,10 +12,10 @@ export class UserController {
     constructor(private readonly userSevice: UserService) { }
 
     @Get()
-    async getAllUsers(@Res() response) {
-        const listUser = await this.userSevice.getAllUser();
+    async getAllUsers(@Res() response, @Query() queryDto: QueryDto) {
+        const listUser = await this.userSevice.getAllUser(queryDto);
         return response.status(HttpStatus.OK).json({
-            result: listUser,
+            listUser,
             message: "Successfully!!!"
         })
     }

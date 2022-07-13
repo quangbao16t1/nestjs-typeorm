@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { User } from 'src/entity/user.entity';
 import * as bcrypt from 'bcrypt';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import UserCreateDto from 'src/dto/user/userCreate.dto';
 import { UserUpdateDto } from 'src/dto/user/userUpdate.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,12 +12,41 @@ export class UserService {
         @InjectRepository(User) private userRepository: Repository<User>
     ) { }
 
-    async getAllUser(): Promise<User[]> {
-        return await this.userRepository.find({
-            relations: {
-                role: true
-            }
+    async getAllUser(queryDto): Promise<any> {
+        const { keyword = '', page = 1, limit = 10, filter = '' } = queryDto;
+        const take = +limit;
+        const skip = (page - 1) * limit;
+
+        let whereCon: any = [];
+
+        let CONDITION = [
+            { firstName: 'firstName', tags: 'address' },
+            { firstName: 'lastName', tags: 'address' },
+        ]
+        console.log("=========", Like('%' + `${keyword}` + '%'))
+        whereCon = CONDITION.map((item) => ({
+            [item.firstName]: Like('%' + `${keyword}` + '%'),
+            [item.tags]: Like('%' + filter + '%'),
+        }))
+
+        // if (!keyword && !filter) whereCon = {}
+
+        console.log("------------", whereCon);
+        // if (keyword) condition = Like('%' + keyword + '%');
+
+        const [result, total] = await this.userRepository.findAndCount({
+            where: whereCon,
+            take: take,
+            skip: skip,
         });
+
+        return {
+            page,
+            page_size: take,
+            total_page: Math.ceil(total / take),
+            total_item: total,
+            result,
+        };
     }
 
     async createUser(user: UserCreateDto): Promise<User> {
