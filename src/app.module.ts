@@ -10,6 +10,9 @@ import { typeOrmAsyncConfig } from './config/typeorm.config';
 
 @Module({
   imports: [
+    // DatabaseModule,
+    ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     UserModule,
     AuthModule,
     // DatabaseModule,

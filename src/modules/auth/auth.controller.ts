@@ -26,4 +26,5 @@ export class AuthController {
             response.json(resultData(HttpStatus.BAD_REQUEST, [], "login failed", error.message))
         }
     }
+    
 }
